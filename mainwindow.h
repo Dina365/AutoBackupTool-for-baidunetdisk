@@ -104,7 +104,7 @@ private:
     QProcess *cmd;//压缩进程
     int cpuThreads;//cpu逻辑线程数
     int cmdThreads;//压缩线程数
-    QLinkedList<File2target>::iterator target;//备份目标
+    QList<File2target>::iterator target;//备份目标
     int error_num=0;//备份发生错误数
     UnbackupFileList* unbkFilelist;//未备份文件列表
     FileList* bkedlist;//已备份文件列表

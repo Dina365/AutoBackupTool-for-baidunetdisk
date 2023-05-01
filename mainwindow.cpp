@@ -134,7 +134,7 @@ void MainWindow::saveBkedlistToFile(){
         qDebug()<<"文件打开失败";*/
     }
     fout.write((QString::number(bkedlist->size())+"\n").toUtf8());
-    for(QLinkedList<file_datetime>::iterator it=bkedlist->begin();it!=bkedlist->end();it++){
+    for(QList<file_datetime>::iterator it=bkedlist->begin();it!=bkedlist->end();it++){
         fout.write((it->file+"|"+it->date+"|"+it->time+"\n").toUtf8());
     }/*
     qDebug()<<bkedlist->size();*/
@@ -149,7 +149,7 @@ void MainWindow::saveUpdlistToFile(){
         qDebug()<<"文件打开失败";*/
     }
     fout.write((QString::number(updatedlist->size())+"\n").toUtf8());
-    for(QLinkedList<file_datetime>::iterator it=updatedlist->begin();it!=updatedlist->end();it++){
+    for(QList<file_datetime>::iterator it=updatedlist->begin();it!=updatedlist->end();it++){
         fout.write((it->file+"|"+it->date+"|"+it->time+"\n").toUtf8());
     }/*
     qDebug()<<bkedlist->size();*/
@@ -167,10 +167,10 @@ void MainWindow::deleteBkedlistFile(){
 void MainWindow::filter(){//从bkedlist中查找相同的路径，若找到，则删除unbkFilelist中对应的项。也可以判断修改时间是否较新
     if(!btn_enable_filter)return;
     int i=0,j=0;
-    for(QLinkedList<File2target>::iterator it=unbkFilelist->begin();i<unbkFilelist->size();){
+    for(QList<File2target>::iterator it=unbkFilelist->begin();i<unbkFilelist->size();){
         j=0;
         bool finded=false;
-        for(QLinkedList<file_datetime>::iterator p=bkedlist->begin();j<bkedlist->size();){
+        for(QList<file_datetime>::iterator p=bkedlist->begin();j<bkedlist->size();){
             if(p->file==it->fileinfo.absoluteFilePath()){
                 if(btn_filterByTime){
                     if((p->date < it->fileinfo.lastModified().date().toString("yyyy.MM.dd"))
@@ -217,7 +217,7 @@ void MainWindow::filter(){//从bkedlist中查找相同的路径，若找到，�
         f2.open(QFile::ReadOnly);
         QByteArray db2;
         if(f2.isOpen())db2 = f2.readAll();
-        for(QLinkedList<File2target>::iterator it=unbkFilelist->begin();i<unbkFilelist->size();){
+        for(QList<File2target>::iterator it=unbkFilelist->begin();i<unbkFilelist->size();){
             bool isExist=false;
 
             if(!isExist&&f0.isOpen()){
@@ -361,7 +361,7 @@ void MainWindow::slotCmdFinished(int exitCode, QProcess::ExitStatus exitStatus){
         }else{
             int j=0;
             bool finded=false;
-            for(QLinkedList<file_datetime>::iterator p=bkedlist->begin();j<bkedlist->size();){
+            for(QList<file_datetime>::iterator p=bkedlist->begin();j<bkedlist->size();){
                 if(p->file==target->fileinfo.absoluteFilePath()){
                     finded=true;
                     p->date=target->fileinfo.lastModified().date().toString("yyyy.MM.dd");
@@ -464,7 +464,7 @@ void MainWindow::getUnbackupFilelist(){
     for(int i=ui->table_unbackup_list->rowCount()-1;i>=0;i--){
     ui->table_unbackup_list->removeRow(i);
     }//先清空列表
-    QLinkedList<File2target>::iterator it=unbkFilelist->begin();
+    QList<File2target>::iterator it=unbkFilelist->begin();
     for(int i=0;i<unbkFilelist->size();i++,it++){
         int r_count=ui->table_unbackup_list->rowCount();
 //        qDebug()<<r_count;
@@ -834,7 +834,7 @@ int MainWindow::getUnbkedFileSize(){
     if(unbkFilelist->size()<=0)size=0;
     else{
         int i=0;
-        for(QLinkedList<File2target>::iterator it = unbkFilelist->begin();i<unbkFilelist->size();i++,it++){
+        for(QList<File2target>::iterator it = unbkFilelist->begin();i<unbkFilelist->size();i++,it++){
             size+=int(getDirSize(it->fileinfo.absoluteFilePath())/1024/1024);
         }
     }

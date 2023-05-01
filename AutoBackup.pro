@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 msvc:QMAKE_CXXFLAGS += -execution-charset:utf-8
 
+QMAKE_CXXFLAGS_RELEASE += -O3
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
